@@ -9,6 +9,7 @@ var app = express();
 // so that your API is remotely testable by FCC
 var cors = require('cors');
 const DateManager = require('./services/date-manager');
+const e = require('express');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
 
 // http://expressjs.com/en/starter/static-files.html
@@ -28,11 +29,11 @@ app.get("/api/:date?", function (req, res) {
       utc: dm.utc,
       unix: dm.unix
     });
+  } else {
+    res.json(200, {
+      error: dm.error
+    });
   }
-
-  res.json(500, {
-    error: dm.error
-  });
 });
 
 module.exports = app;

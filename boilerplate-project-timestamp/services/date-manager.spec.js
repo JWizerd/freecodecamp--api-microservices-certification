@@ -7,6 +7,7 @@ describe('DateManager', () => {
       const dm3 = new DateManager("abc123");
       expect(dm.isValidDate).toBe(false);
       expect(dm3.isValidDate).toBe(false);
+      expect(dm.error).toBe("Invalid Date");
     });
 
     it('should return true if date is not a supported format for the JavaScript Date object', () => {

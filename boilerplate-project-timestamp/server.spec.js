@@ -26,7 +26,7 @@ describe('server spec', () => {
       expect(response.body).toEqual({
         error: "Invalid Date"
       });
-      expect(response.statusCode).toBe(500);
+      expect(response.statusCode).toBe(200);
     });
 
     it('An empty date parameter should return the current time in a JSON object with a unix key', async () => {
