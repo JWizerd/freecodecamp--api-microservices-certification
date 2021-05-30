@@ -4,7 +4,7 @@ const headerParserHandler = require("./app").headerParserHandler;
 const req = require("./__mocks__/request");
 const res = require("./__mocks__/response");
 const mockRes = {
- "ipaddress": "localhost:64083",
+ "ipaddress": "::ffff:127.0.0.1",
   "language": "en-US,en;q=0.9",
   "software": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.198 Safari/537.36",
 };
