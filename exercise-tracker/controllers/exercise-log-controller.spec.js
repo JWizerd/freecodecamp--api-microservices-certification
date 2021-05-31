@@ -50,7 +50,8 @@ describe('user controller tests', () => {
       to retrieve a full exercise log of any user. The returned
       response will be the user object with a log array of all the
       exercises added. Each log item has the description, duration,
-      and date properties.`,  () => {
+      and date properties.
+    `,  () => {
         const user = { username: "jwizerd", log: [] };
         app.locals.db.insert(user, async function(err, doc) {
           await request(app).post(`/api/users/${doc._id}/exercises`).send({
@@ -68,6 +69,40 @@ describe('user controller tests', () => {
           expect(response.body.count === 2).toBe(true);
           expect(response.body.log).toBeDefined();
           expect(response.status).toEqual(200);
+        });
+    });
+
+    it(`
+      You can add from, to and limit parameters to
+      a /api/users/:_id/logs request to retrieve part
+      of the log of any user. from and to are dates in
+      yyyy-mm-dd format. limit is an integer of how many
+      logs to send back.
+    `, async () => {
+        app.locals.db.insert(user, async function(err, doc) {
+          await request(app).post(`/api/users/${doc._id}/exercises`).send({
+            description: "running",
+            duration: 60,
+            date: "2009-04-20"
+          });
+          await request(app).post(`/api/users/${doc._id}/exercises`).send({
+            description: "running",
+            duration: 120,
+            date: "2021-04-21"
+          });
+          await request(app).post(`/api/users/${doc._id}/exercises`).send({
+            description: "running",
+            duration: 120,
+            date: "2021-04-21"
+          });
+          await request(app).post(`/api/users/${doc._id}/exercises`).send({
+            description: "running",
+            duration: 120,
+            date: "2021-04-21"
+          });
+
+          const response = await request(app).get(`/api/users/${doc._id}/logs?from="2010-01-01&to=2020-05-01&limit=3`);
+          expect(true).toBe(false);
         });
     });
   });
