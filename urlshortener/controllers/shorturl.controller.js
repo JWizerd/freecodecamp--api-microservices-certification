@@ -13,10 +13,10 @@ const create = (req, res) => {
         });
       })
       .catch((error => {
-        res.send({ error }, 500);
+        res.status(500).send({ error });
       }));
   } else {
-    res.send({ error: "Invalid url" }, 500);
+    res.status(500).send({ error: "Invalid url" });
   }
 }
 
@@ -26,7 +26,7 @@ const redirect = (req, res) => {
       res.redirect(doc.url);
     })
     .catch((error) => {
-      res.send({ error }, 500);
+      res.status(500).send({ error });
     })
 }
 

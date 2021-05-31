@@ -12,6 +12,9 @@ app.locals.db = new Datastore({ filename: "database.db", autoload: true });
 app.use(cors());
 app.use('/public', express.static(`${process.cwd()}/public`));
 app.use(bodyParser.json());
+app.use(express.urlencoded({
+  extended: true
+}))
 
 app.get('/', AppController.index);
 

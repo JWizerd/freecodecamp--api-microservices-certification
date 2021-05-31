@@ -28,7 +28,7 @@ describe('shorturl controller tests', () => {
       If you pass an invalid URL that doesn't follow
       the valid http://www.example.com format, the JSON
       response will contain { error: 'invalid url' }
-    `, () => {
+    `, async() => {
       const response = await request(app).post("/api/shorturl").send({
         url: "abc.com"
       });
