@@ -16,7 +16,7 @@ const create = (req, res) => {
         res.status(500).send({ error });
       }));
   } else {
-    res.status(500).send({ error: "Invalid url" });
+    res.status(500).send({ error: "invalid url" });
   }
 }
 
