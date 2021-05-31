@@ -1,6 +1,10 @@
 const app = require("../app");
 const request = require("supertest");
+const mockReq = require("../__mocks__/request");
+const mockRes = require("../__mocks__/response");
 const Datastore = require('nedb');
+const ShorturlController = require("./shorturl.controller");
+
 app.locals.db = new Datastore();
 
 describe('shorturl controller tests', () => {
@@ -18,6 +22,19 @@ describe('shorturl controller tests', () => {
       expect(response.status).toEqual(200);
       expect(response.body.original_url).toEqual("https://freeCodeCamp.org");
       expect(response.body.short_url).toBeDefined();
+    });
+
+    it(`
+      If you pass an invalid URL that doesn't follow
+      the valid http://www.example.com format, the JSON
+      response will contain { error: 'invalid url' }
+    `, () => {
+      const response = await request(app).post("/api/shorturl").send({
+        url: "abc.com"
+      });
+
+      expect(response.body).toEqual({ error: "Invalid url" });
+      expect(response.status).toEqual(500);
     });
   });
 });
