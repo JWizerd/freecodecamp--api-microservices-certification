@@ -26,7 +26,7 @@ const redirect = (req, res) => {
       res.redirect(doc.url);
     })
     .catch((error) => {
-      res.status(500).send({ error });
+      res.status(200).send({ error });
     })
 }
 
