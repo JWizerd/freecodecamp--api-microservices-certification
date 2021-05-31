@@ -1,6 +1,6 @@
 const create = (req) => {
   return new Promise((resolve, reject) => {
-    req.app.locals.db.find({ url: req.body }, function(err, docs) {
+    req.app.locals.db.find({ url: req.body.url }, function(err, docs) {
       if (docs.length === 0) {
         req.app.locals.db.insert(req.body, (err, newDoc) => {
           if (err) {
