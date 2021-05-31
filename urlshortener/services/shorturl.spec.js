@@ -16,6 +16,14 @@ describe('Shorturl Service', () => {
     });
   });
 
+  it('should return doc if already in db', async () => {
+    await create(req);
+    const sameDoc = await create(req);
+    req.app.locals.db.find({}, function(err, docs) {
+      expect(docs.find(d => d.url === sameDoc.url)).toBeDefined();
+    });
+  });
+
   it('should find doc by id', async () => {
     const doc = await create(req);
     await req.app.locals.db.find({ _id: doc._id }, function(err, docs) {
