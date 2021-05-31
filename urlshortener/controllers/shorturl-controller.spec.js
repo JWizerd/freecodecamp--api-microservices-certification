@@ -33,8 +33,8 @@ describe('shorturl controller tests', () => {
         url: "abc.com"
       });
 
-      expect(response.body).toEqual({ error: "Invalid url" });
-      expect(response.status).toEqual(500);
+      expect(response.body).toEqual({ error: "invalid url" });
+      expect(response.status).toEqual(200);
     });
   });
 });

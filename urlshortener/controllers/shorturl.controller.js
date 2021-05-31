@@ -4,7 +4,7 @@ const service = require("../services/shorturl");
 const create = (req, res) => {
   const { url } = req.body;
 
-  if (validUrl.isUri(url)) {
+  if (validUrl.isHttpUri(url) || validUrl.isHttpsUri(url)) {
     service.create(req)
       .then((doc) => {
         res.send({
