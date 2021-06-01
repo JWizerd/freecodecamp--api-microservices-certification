@@ -11,26 +11,56 @@ beforeAll(() => {
 });
 
 describe('Exercise Log Service', () => {
-  describe('filterFrom', () => {
+  describe('_filterByFrom', () => {
     it('should return results if date of log is after from date', () => {
       const results = ExerciseLogService._filterByFrom(mockDoc.log, "2009-01-01");
       expect(results.length).toBe(3);
     });
 
+    it('should return zero results if date of log is before from date', () => {
+      const results = ExerciseLogService._filterByFrom(mockDoc.log, "2021-06-02");
+      expect(results.length).toBe(0);
+    });
+  });
+
+  describe('_filterByTo', () => {
     it('should return results if date of log is after from date', () => {
-      const results = ExerciseLogService._filterByFrom(mockDoc.log, "2021-01-01");
+      const results = ExerciseLogService._filterByTo(mockDoc.log, "1971-01-01");
+      expect(results.length).toBe(1);
+      expect(results[0].date).toEqual("1970-01-01");
+    });
+
+    it('should return zero results if date of logs are all after to date', () => {
+      const results = ExerciseLogService._filterByFrom(mockDoc.log, "2021-07-01");
+      expect(results.length).toBe(0);
+    });
+  });
+
+  describe('_filterByFromTo', () => {
+    it('should return results if date of log is after from date and before to date', () => {
+      const results = ExerciseLogService._filterByFromTo(mockDoc.log, "1971-01-01", "2021-01-01");
       expect(results.length).toBe(2);
     });
   });
 
-  // describe('find', () => {
-  //   it('should find logs that are before a certain date', () => {
-  //     req.app.locals.db.insert(mockDoc, async function(err, doc) {
-  //       req.query.from("1999-01-01")
-  //       req.query.to("2020-01-01")
-  //       const results = await ExerciseLogService.find(req);
-  //       expect(results.length).toBe(1);
-  //     });
-  //   });
-  // });
+  describe('_limitResults', () => {
+    it('should return 2 logs if limit is 2', () => {
+      const results = ExerciseLogService._limitResults(mockDoc.log, 2);
+      expect(results.length).toBe(2);
+    });
+  });
+
+  describe('find', () => {
+    it('should find logs that are before a certain date', (done) => {
+      req.app.locals.db.insert(mockDoc, async function(err, doc) {
+        req.query.from = "1970-01-01";
+        req.query.to = "2021-01-01";
+        req.query.limit = "2";
+        req.params._id = doc._id;
+        const results = await ExerciseLogService.find(req);
+        expect(results.log.length).toBe(2);
+        done();
+      });
+    });
+  });
 });

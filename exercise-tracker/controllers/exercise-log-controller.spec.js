@@ -43,12 +43,13 @@ describe('exercise log controller tests', () => {
       response will be the user object with a log array of all the
       exercises added. Each log item has the description, duration,
       and date properties.
-    `,  () => {
+    `,  (done) => {
         app.locals.db.insert(mockDoc, async function(err, doc) {
           const response = await request(app).get(`/api/users/${doc._id}/logs`);
           expect(response.body.count === 4).toBe(true);
           expect(response.body.log).toBeDefined();
           expect(response.status).toEqual(200);
+          done();
         });
     });
 
@@ -58,10 +59,11 @@ describe('exercise log controller tests', () => {
       of the log of any user. from and to are dates in
       yyyy-mm-dd format. limit is an integer of how many
       logs to send back.
-    `, () => {
+    `, (done) => {
         app.locals.db.insert(mockDoc, async function(err, doc) {
-          const response = await request(app).get(`/api/users/${doc._id}/logs?from=2010-01-01&to=2020-05-01&limit=3`);
-          expect(true).toBe(false);
+          const response = await request(app).get(`/api/users/${doc._id}/logs?from=2010-01-01&to=2021-07-01&limit=2`);
+          expect(response.body.log.length).toBe(2);
+          done();
         });
     });
   });

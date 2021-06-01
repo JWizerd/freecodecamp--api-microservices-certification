@@ -51,7 +51,6 @@ class ExerciseLogService extends BaseService {
   _filterByTo(log, to) {
     return log.filter(l => {
       const date = new Date(l.date).getTime();
-      from = new Date(from).getTime();
       to = new Date(to).getTime();
       return date < to;
     });
