@@ -27,7 +27,7 @@ describe('Exercise Log Service', () => {
     it('should return results if date of log is after from date', () => {
       const results = ExerciseLogService._filterByTo(mockDoc.log, "1971-01-01");
       expect(results.length).toBe(1);
-      expect(results[0].date).toEqual("1970-01-01");
+      expect(results[0].date).toEqual('Wed Dec 31 1969');
     });
 
     it('should return zero results if date of logs are all after to date', () => {
@@ -39,7 +39,7 @@ describe('Exercise Log Service', () => {
   describe('_filterByFromTo', () => {
     it('should return results if date of log is after from date and before to date', () => {
       const results = ExerciseLogService._filterByFromTo(mockDoc.log, "1971-01-01", "2021-01-01");
-      expect(results.length).toBe(2);
+      expect(results.length).toBe(1);
     });
   });
 
@@ -58,7 +58,7 @@ describe('Exercise Log Service', () => {
         req.query.limit = "2";
         req.params._id = doc._id;
         const results = await ExerciseLogService.find(req);
-        expect(results.log.length).toBe(2);
+        expect(results.log.length).toBe(1);
         done();
       });
     });

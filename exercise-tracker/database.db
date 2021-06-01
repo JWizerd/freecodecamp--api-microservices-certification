@@ -1,3 +1,2 @@
-{"username":"jwizerd","log":[],"_id":"QUoTsD5j6cYpzlsn"}
-{"username":"j","log":[{"description":"run","duration":"10","date":"2021-04-01"}],"_id":"WvCoUnqmvBGcjrgs","count":1}
-{"username":"jwizerd","log":[{"description":"running","duration":10,"date":"2021-04-01"}],"_id":"QUoTsD5j6cYpzlsn","count":1}
+{"username":"j","log":[{"description":"run","duration":10,"date":"Tue Jun 01 2021"},{"description":"run","duration":10,"date":"Tue Jun 01 2021"}],"count":2,"_id":"Pa1apPonhgYz6bC0"}
+{"username":"j","log":[{"description":"run","duration":10,"date":"Tue Jun 01 2021"},{"description":"run","duration":10,"date":"Tue Jun 01 2021"},{"description":"run","duration":10,"date":"Tue Jun 01 2021"}],"count":3,"_id":"Pa1apPonhgYz6bC0"}

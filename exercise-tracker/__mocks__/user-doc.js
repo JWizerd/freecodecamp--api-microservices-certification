@@ -10,17 +10,17 @@ module.exports = {
     {
       duration: 60,
       description: "swimming",
-      date: "2021-01-01",
+      date: 'Thu Dec 31 2020',
     },
     {
       duration: 120,
       description: "boxing",
-      date: "1970-01-01",
+      date: 'Wed Dec 31 1969',
     },
     {
       duration: 180,
       description: "hiking",
-      date: "2020-01-01",
+      date: 'Sun May 30 2021',
     },
   ]
 };

@@ -29,9 +29,9 @@ describe('exercise log controller tests', () => {
         expect(response.status).toEqual(200);
         expect(response.body._id).toBeDefined();
         expect(response.body.username).toEqual("jwizerd");
-        expect(response.body.log[0].description).toEqual("running");
-        expect(response.body.log[0].duration).toEqual(60);
-        expect(response.body.log[0].date).toEqual("2021-05-31");
+        expect(response.body.description).toEqual("running");
+        expect(response.body.duration).toEqual(60);
+        expect(response.body.date).toEqual('Sun May 30 2021');
 
         done()
       });

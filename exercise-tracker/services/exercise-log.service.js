@@ -1,5 +1,4 @@
 const BaseService = require("./base.service");
-const moment = require("moment");
 
 class ExerciseLogService extends BaseService {
   constructor() {
@@ -7,9 +6,13 @@ class ExerciseLogService extends BaseService {
   }
 
   _getDate(date) {
-    date = moment(date);
-    if (date.isValid()) return date.format("YYYY-MM-DD");
-    return moment().format("YYYY-MM-DD");
+    date = new Date(date);
+    if (this._isValidDate(date)) return date.toDateString();
+    return new Date().toDateString();
+  }
+
+  _isValidDate(date) {
+    return date.getTime() === date.getTime();
   }
 
   create(req) {
@@ -39,7 +42,11 @@ class ExerciseLogService extends BaseService {
                 if (err) {
                   reject(err);
                 } else {
-                  resolve(docs[0]);
+                  resolve({
+                    username: docs[0].username,
+                    _id: docs[0]._id,
+                    ...req.body
+                  });
                 }
               });
             }
