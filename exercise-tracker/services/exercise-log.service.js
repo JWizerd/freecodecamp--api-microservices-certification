@@ -16,16 +16,33 @@ class ExerciseLogService extends BaseService {
     const self = this;
     return new Promise(function(resolve, reject) {
       req.app.locals.db.find({ _id: req.params._id }, function(err, docs) {
+        delete req.body[':_id'];
         req.body.date = self._getDate(req.body.date);
-        docs[0].log = docs[0].log || [];
-        docs[0].log.push(req.body);
+        req.body.duration = parseInt(req.body.duration, 10);
         docs[0].count = docs[0].log.length;
-        req.app.locals.db.update({ _id: docs[0]._id }, docs[0], (err, numReplaced) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(docs[0]);
-          }
+        req.app.locals.db.update(
+          { _id: docs[0]._id },
+          {
+            $push: {
+              log: req.body,
+            },
+            $set: {
+              count: docs[0].log.length + 1
+            }
+          },
+          {},
+          (err, numReplaced) => {
+            if (err) {
+              reject(err);
+            } else {
+              req.app.locals.db.find({ _id: req.params._id }, function(err, docs) {
+                if (err) {
+                  reject(err);
+                } else {
+                  resolve(docs[0]);
+                }
+              });
+            }
         });
       })
     });

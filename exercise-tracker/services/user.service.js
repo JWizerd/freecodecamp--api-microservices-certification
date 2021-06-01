@@ -26,6 +26,7 @@ class UserService extends BaseService {
       req.app.locals.db.find(req.body, function(err, docs) {
         if (docs.length === 0) {
           req.body.log = [];
+          req.body.count = 0;
           req.app.locals.db.insert(req.body, (err, newDoc) => {
             if (err) {
               reject(err);
