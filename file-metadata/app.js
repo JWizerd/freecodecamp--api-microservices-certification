@@ -22,7 +22,6 @@ app.get("/", function (req, res) {
 });
 
 const metadataParser = function(req, res) {
-  const files = req.files;
   const firstFile = req.files[Object.keys(req.files)[0]];
 
   res.status(200).json({
