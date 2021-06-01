@@ -6,6 +6,7 @@ let db;
 beforeAll(() => {
   db = new Datastore();
   req.app.locals.db = db;
+  process.env.NODE_ENV = "test";
 });
 
 describe('User Service', () => {

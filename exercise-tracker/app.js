@@ -8,7 +8,9 @@ const UserController = require("./controllers/user.controller");
 const ExerciseLogController = require("./controllers/exercise-log.controller");
 const Datastore = require('nedb');
 
-app.locals.db = new Datastore({ filename: "database.db", autoload: true });
+if (process.env.NODE_ENV !== "test") {
+  app.locals.db = new Datastore({ filename: "database.db", autoload: true });
+}
 
 app.use(cors());
 app.use('/public', express.static(`${process.cwd()}/public`));
@@ -21,9 +23,10 @@ app.get('/', AppController.index);
 
 // RESOURCE: Users
 app.post('/api/users', UserController.create.bind(UserController));
-app.get('/api/users', UserController.find.bind(UserController));
+app.get('/api/users', UserController.all.bind(UserController));
 
 // RESOURCE: Exercise Logs
 app.post('/api/users/:_id/exercises', ExerciseLogController.create.bind(ExerciseLogController));
-app.get('/api/users/:_id/logs', ExerciseLogController.findOne.bind(ExerciseLogController));
+app.get('/api/users/:_id/logs', ExerciseLogController.search.bind(ExerciseLogController));
+
 module.exports = app;

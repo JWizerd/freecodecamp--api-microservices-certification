@@ -1,5 +1,5 @@
 class BaseService {
-  find(req) {
+  all(req) {
     return new Promise((resolve, reject) => {
       req.app.locals.db.find({}, (err, docs) => {
         if (err) {

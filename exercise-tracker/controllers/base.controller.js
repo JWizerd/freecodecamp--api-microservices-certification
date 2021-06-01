@@ -6,17 +6,27 @@ class BaseController {
   create(req, res) {
     this.service.create(req)
       .then((doc) => {
-        res.send(doc);
+        res.status(200).send(doc);
       })
       .catch((error => {
         res.status(200).send({ error });
       }));
   }
 
-  find(req, res) {
+  all(req, res) {
+    this.service.all(req)
+      .then((doc) => {
+        res.status(200).send(doc);
+      })
+      .catch((error => {
+        res.status(200).send({ error });
+      }));
+  }
+
+  search(req, res) {
     this.service.find(req)
       .then((doc) => {
-        res.send(doc);
+        res.status(200).send(doc);
       })
       .catch((error => {
         res.status(200).send({ error });

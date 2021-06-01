@@ -6,7 +6,7 @@ class ExerciseLogService extends BaseService {
     super();
   }
 
-  getDate(date) {
+  _getDate(date) {
     date = moment(date);
     if (date.isValid()) return date.format("YYYY-MM-DD");
     return moment().format("YYYY-MM-DD");
@@ -16,7 +16,7 @@ class ExerciseLogService extends BaseService {
     const self = this;
     return new Promise(function(resolve, reject) {
       req.app.locals.db.find({ _id: req.params._id }, function(err, docs) {
-        req.body.date = self.getDate(req.body.date);
+        req.body.date = self._getDate(req.body.date);
         docs[0].log = docs[0].log || [];
         docs[0].log.push(req.body);
         docs[0].count = docs[0].log.length;
@@ -28,6 +28,69 @@ class ExerciseLogService extends BaseService {
           }
         });
       })
+    });
+  }
+
+  _filterByFrom(log, from) {
+    return log.filter(l => {
+      const date = new Date(l.date).getTime();
+      from = new Date(from).getTime();
+      return date >= from;
+    });
+  }
+
+  _filterByFromTo(log, from, to) {
+    return log.filter(l => {
+      const date = new Date(l.date).getTime();
+      from = new Date(from).getTime();
+      to = new Date(to).getTime();
+      return date >= from && date <= to;
+    });
+  }
+
+  _filterByTo(log, to) {
+    return log.filter(l => {
+      const date = new Date(l.date).getTime();
+      from = new Date(from).getTime();
+      to = new Date(to).getTime();
+      return date < to;
+    });
+  }
+
+  _filterByDate(log, from, to) {
+    if (from && to) {
+      log = this._filterByFromTo(log, from, to)
+    } else if (to && !from) {
+      log = this._filterByTo(log, to)
+    } else if (from && !to) {
+      log = this._filterByFrom(log, from)
+    }
+
+    return log;
+  }
+
+  _limitResults(log, limit) {
+    if (limit) {
+      log = log.slice(0, parseInt(limit, 10));
+    }
+
+    return log;
+  }
+
+  find(req) {
+    const self = this;
+    return new Promise((resolve, reject) => {
+      req.app.locals.db.find({ _id: req.params._id }, (err, doc) => {
+        if (err) {
+          reject(err);
+        } else {
+          doc = doc[0];
+          doc.log = self._filterByDate(doc.log, req.query.from, req.query.to);
+          doc.log = self._limitResults(doc.log, req.query.limit);
+          doc.count = doc.log.length;
+          resolve(doc);
+        }
+      });
     });
   }
 }

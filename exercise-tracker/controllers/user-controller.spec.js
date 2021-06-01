@@ -4,7 +4,11 @@ const mockReq = require("../__mocks__/request");
 const mockRes = require("../__mocks__/response");
 const Datastore = require('nedb');
 
-app.locals.db = new Datastore();
+beforeAll(() => {
+  db = new Datastore();
+  app.locals.db = db;
+  process.env.NODE_ENV = "test";
+});
 
 describe('user controller tests', () => {
   describe('POST /api/users', () => {
@@ -28,13 +32,15 @@ describe('user controller tests', () => {
       to get an array of all users. Each element
       in the array is an object containing a user's
       username and _id.
-    `, async() => {
-      await app.locals.db.insert({ username: "jwizerd"});
-      const response = await request(app).get("/api/users");
+    `, (done) => {
+      app.locals.db.insert({ username: "jwizerd"}, async function(err, doc) {
+        const response = await request(app).get("/api/users");
 
-      expect(Array.isArray(response.body)).toBe(true);
-      expect(response.body.length > 0).toBe(true);
-      expect(response.status).toEqual(200);
+        expect(Array.isArray(response.body)).toBe(true);
+        expect(response.body.length > 0).toBe(true);
+        expect(response.status).toEqual(200);
+        done();
+      });
     });
   });
 });
